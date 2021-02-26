@@ -1,54 +1,111 @@
-const time = document.getElementById("time");
-const greeting = document.getElementById("greeting");
-const name = document.getElementById("name");
-const focus = document.getElementById("focus");
+const time = document.getElementById('time');
+const greeting = document.getElementById('greeting');
+const userName = document.getElementById('userName');
+const focus = document.getElementById('focus');
 
 let showTime = () => {
-    let today = new Date();
-    let hour = today.getHours();
-    let min = today.getMinutes();
-    let sec = today.getSeconds();
+  let today = new Date();
+  let hour = today.getHours();
+  let min = today.getMinutes();
+  let sec = today.getSeconds();
 
-    const amPm = hour >= 12 ? "PM" : "AM";
+  const amPm = hour >= 12 ? 'PM' : 'AM';
 
-    hour = hour % 12 || 12;
+  hour = hour % 12 || 12;
 
-    time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)} ${amPm}`;
+  time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)} ${amPm}`;
 
-    setTimeout(showTime, 1000);
+  setTimeout(showTime, 1000);
 }
 
-let addZero = (n) =>{
-    return (parseInt(n,10) < 10 ? "0" : "") + n
+let addZero = (n) => {
+  return (parseInt(n, 10) < 10 ? '0' : '') + n
 }
 
-let showGreetingAndBg = () => {
+let setGreetingAndBg = () => {
 
-    let today = new Date();
-    let hour = today.getHours();
+  let today = new Date();
+  let hour = today.getHours();
 
-    if (hour > 18){
+  if (hour > 18) {
 
-        greeting.innerHTML = "good afternoon,";
-        document.querySelector('.main').style.backgroundImage = "url('./src/img/day.jpg')";
+    greeting.textContent = 'good afternoon,';
+    document.querySelector('.main').style.backgroundImage = "url('./src/img/afternoon.jpg')";
 
-    } else if (hour > 12){
+  } else if (hour > 12) {
 
-        greeting.innerHTML = "good day,";
-        document.querySelector('.main').style.backgroundImage = "url('./src/img/day.jpg')";
+    greeting.textContent = 'good day,';
+    document.querySelector('.main').style.backgroundImage = "url('./src/img/day.jpg')";
 
-    } else if (hour > 6){
+  } else if (hour > 6) {
 
-        greeting.innerHTML = "good morning,";
-        document.querySelector('.main').style.backgroundImage = "url('./src/img/day.jpg')";
+    greeting.textContent = 'good morning,';
+    document.querySelector('.main').style.backgroundImage = "url('./src/img/morning.jpg')";
 
-    } else {
+  } else {
 
-        greeting.innerHTML = "good night,";
-        document.querySelector(".main").style.backgroundImage = "url('./src/img/day.jpg')";
+    greeting.textContent = 'good night,';
+    document.querySelector('.main').style.backgroundImage = "url('./src/img/night.jpg')";
+    document.querySelector('.main').style.color = '#fff';
+
+  }
+}
+
+let getUserName = () => {
+
+  if (localStorage.getItem('userName') === null) {
+    userName.textContent = '[Enter name]';
+
+  } else {
+    userName.textContent = localStorage.getItem('userName');
+  }
+}
+
+let setUserName = (e) => {
+
+  if (e.type === 'keypress') {
+
+    if (e.which == 13 || e.keyCode == 13) {
+      localStorage.setItem('userName', e.target.innerText);
+      userName.blur();
     }
+  } else {
+    localStorage.setItem('userName', e.target.innerText);
+  }
 }
 
 
+let setFocus = (e) => {
+
+  if (e.type === 'keypress') {
+
+    if (e.which == 13 || e.keyCode == 13) {
+      localStorage.setItem('focus', e.target.innerText);
+      focus.blur();
+    }
+  } else {
+    localStorage.setItem('focus', e.target.innerText);
+  }
+}
+
+let getFocus = () => {
+
+  if (localStorage.getItem('focus') === null) {
+    focus.textContent = '[Enter focus]';
+
+  } else {
+    focus.textContent = localStorage.getItem('focus');
+  }
+}
+
+userName.addEventListener('keypress', setUserName);
+userName.addEventListener('blur', setUserName);
+focus.addEventListener('keypress', setFocus);
+focus.addEventListener('blur', setFocus);
+
+
+getUserName();
+getFocus();
 showTime();
-showGreetingAndBg();
+setGreetingAndBg();
+
