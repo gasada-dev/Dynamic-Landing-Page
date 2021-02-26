@@ -2,6 +2,7 @@ const time = document.getElementById('time');
 const greeting = document.getElementById('greeting');
 const userName = document.getElementById('userName');
 const focus = document.getElementById('focus');
+const showAmPm = true;
 
 let showTime = () => {
   let today = new Date();
@@ -13,7 +14,7 @@ let showTime = () => {
 
   hour = hour % 12 || 12;
 
-  time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)} ${amPm}`;
+  time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)} ${showAmPm ? amPm : ''}`;
 
   setTimeout(showTime, 1000);
 }
@@ -29,22 +30,26 @@ let setGreetingAndBg = () => {
 
   if (hour > 18) {
 
-    greeting.textContent = 'good afternoon,';
+    greeting.textContent = 'Good afternoon,';
     document.querySelector('.main').style.backgroundImage = "url('./src/img/afternoon.jpg')";
+    document.querySelector('.main').style.color = '#fff';
+
 
   } else if (hour > 12) {
 
-    greeting.textContent = 'good day,';
+    greeting.textContent = 'Good day,';
     document.querySelector('.main').style.backgroundImage = "url('./src/img/day.jpg')";
 
   } else if (hour > 6) {
 
-    greeting.textContent = 'good morning,';
+    greeting.textContent = 'Good morning,';
     document.querySelector('.main').style.backgroundImage = "url('./src/img/morning.jpg')";
+    document.querySelector('.main').style.color = '#fff';
+
 
   } else {
 
-    greeting.textContent = 'good night,';
+    greeting.textContent = 'Good night,';
     document.querySelector('.main').style.backgroundImage = "url('./src/img/night.jpg')";
     document.querySelector('.main').style.color = '#fff';
 
